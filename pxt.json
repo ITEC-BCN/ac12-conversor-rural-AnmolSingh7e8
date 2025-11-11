@@ -1,5 +1,5 @@
 {
-    "name": "Demo",
+    "name": "Moviment personatje principal",
     "description": "",
     "dependencies": {
         "device": "*"
@@ -8,13 +8,16 @@
         "main.blocks",
         "main.ts",
         "README.md",
-        "assets.json"
+        "assets.json",
+        "images.g.jres",
+        "images.g.ts",
+        "main.py"
     ],
     "testFiles": [
         "test.ts"
     ],
     "targetVersions": {
-        "target": "1.12.56",
+        "target": "2.0.61",
         "targetId": "arcade"
     },
     "supportedTargets": [
