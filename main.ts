@@ -1,12 +1,11 @@
-// Overlap: cuando player toca el trigger (usamos SpriteKind.food)
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (npc, trigger) {
-    npc.sayText("Pulsa A", 200)
-    if (!(talking)) {
-        npc.sayText("Pulsa A", 200)
-        talking = true
-    }
+/**
+ * --- VARIABLES ---
+ */
+// --- OVERLAP ---
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (player2, trigger) {
+    player2.sayText("Pulsa A", 500)
 })
-// MENU y funciones de conversión (idénticas a las anteriores)
+// --- MENÚ ---
 function abrir_menu () {
     procesar_opcio(menu())
 }
@@ -20,34 +19,19 @@ function menu () {
             6 Salir
             `, 1)
 }
+// --- BOTÓN A ---
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (talking) {
-        abrir_menu()
+    for (let spr of sprites.allOfKind(SpriteKind.Food)) {
+        if (player2.overlapsWith(spr)) {
+            abrir_menu()
+        }
     }
 })
+// --- CREAR NPC + TRIGGER ---
 function create_npc () {
-    // ← NPC ya NO es SpriteKind.player — esto arregla los controles
     npc = sprites.create(assets.image`npc`, SpriteKind.Enemy)
     npc.setPosition(22, 18)
-    // ← NPC ya NO es SpriteKind.player — esto arregla los controles
-    npc_trigger = sprites.create(img`
-        . . . . . . f f f f . . . . . . 
-        . . . . f f f 2 2 f f f . . . . 
-        . . . f f f 2 2 2 2 f f f . . . 
-        . . f f f e e e e e e f f f . . 
-        . . f f e 2 2 2 2 2 2 e e f . . 
-        . . f e 2 f f f f f f 2 e f . . 
-        . . f f f f e e e e f f f f . . 
-        . f f e f b f 4 4 f b f e f f . 
-        . f e e 4 1 f d d f 1 4 e e f . 
-        . . f f f f d d d d d e e f . . 
-        . f d d d d f 4 4 4 e e f . . . 
-        . f b b b b f 2 2 2 2 f 4 e . . 
-        . f b b b b f 2 2 2 2 f d 4 . . 
-        . . f c c f 4 5 5 4 4 f 4 4 . . 
-        . . . f f f f f f f f . . . . . 
-        . . . . . f f . . f f . . . . . 
-        `, SpriteKind.Food)
+    npc_trigger = sprites.create(assets.image`myImage0`, SpriteKind.Food)
     npc_trigger.setFlag(SpriteFlag.Invisible, true)
     npc_trigger.setPosition(npc.x, npc.y)
 }
@@ -95,31 +79,29 @@ let current_value = 0
 let result = 0
 let factor = 0
 let current_product = ""
-let npc: Sprite = null
-let talking = false
 let npc_trigger: Sprite = null
-let opcio_usuari = 0
-npc_trigger = sprites.create(img`
-    . . . . . . f f f f . . . . . . 
-    . . . . f f f 2 2 f f f . . . . 
-    . . . f f f 2 2 2 2 f f f . . . 
-    . . f f f e e e e e e f f f . . 
-    . . f f e 2 2 2 2 2 2 e e f . . 
-    . . f e 2 f f f f f f 2 e f . . 
-    . . f f f f e e e e f f f f . . 
-    . f f e f b f 4 4 f b f e f f . 
-    . f e e 4 1 f d d f 1 4 e e f . 
-    . . f f f f d d d d d e e f . . 
-    . f d d d d f 4 4 4 e e f . . . 
-    . f b b b b f 2 2 2 2 f 4 e . . 
-    . f b b b b f 2 2 2 2 f d 4 . . 
-    . . f c c f 4 5 5 4 4 f 4 4 . . 
-    . . . f f f f f f f f . . . . . 
-    . . . . . f f . . f f . . . . . 
-    `, SpriteKind.Player)
-controller.moveSprite(npc_trigger, 100, 100)
-// Crear NPC y jugador
+let npc: Sprite = null
+let player2: Sprite = null
+let talking = true
+let productos = {
+    1 : "Gallina",
+    2 : "Patata",
+    3 : "Cabra",
+    4 : "Huevos",
+    5 : "Caballo",
+    6 : "Salir",
+}
+let factores = {
+    "Gallina" : 6,
+    "Patata" : 2 / 1.5,
+    "Cabra" : 5,
+    "Huevos" : 0.25,
+    "Caballo" : 12,
+}
+// --- INICIO ---
 create_npc()
+player2 = sprites.create(assets.image`myImage0`, SpriteKind.Player)
+controller.moveSprite(player2)
 scene.setBackgroundImage(img`
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
     9999999999999999999999999999999999999999999999999999111111111119999999999999999999999999999999999999991111999999999999999999999999999999999999999999111111111111
@@ -242,4 +224,3 @@ scene.setBackgroundImage(img`
     bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
     bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
     `)
-controller.moveSprite(npc_trigger, 100, 100)
