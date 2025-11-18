@@ -1,15 +1,14 @@
-/**
- * --- VARIABLES ---
- */
-// --- OVERLAP ---
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (player2, trigger) {
+/** --- VARIABLES --- */
+//  --- OVERLAP ---
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function on_on_overlap(player2: Sprite, trigger: Sprite) {
     player2.sayText("Pulsa A", 500)
 })
-// --- MENÚ ---
-function abrir_menu () {
+//  --- MENÚ ---
+function abrir_menu() {
     procesar_opcio(menu())
 }
-function menu () {
+
+function menu(): number {
     return game.askForNumber(`
             1 Gallina
             2 Patata
@@ -19,23 +18,32 @@ function menu () {
             6 Salir
             `, 1)
 }
-// --- BOTÓN A ---
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+
+//  --- BOTÓN A ---
+controller.A.onEvent(ControllerButtonEvent.Pressed, function on_a_pressed() {
     for (let spr of sprites.allOfKind(SpriteKind.Food)) {
-        if (player2.overlapsWith(spr)) {
+        if (player22.overlapsWith(spr)) {
             abrir_menu()
         }
+        
     }
 })
-// --- CREAR NPC + TRIGGER ---
-function create_npc () {
-    npc = sprites.create(assets.image`npc`, SpriteKind.Enemy)
+//  --- CREAR NPC + TRIGGER ---
+function create_npc() {
+    
+    npc = sprites.create(assets.image`
+        npc
+        `, SpriteKind.Enemy)
     npc.setPosition(22, 18)
-    npc_trigger = sprites.create(assets.image`myImage0`, SpriteKind.Food)
+    npc_trigger = sprites.create(assets.image`
+        myImage0
+        `, SpriteKind.Food)
     npc_trigger.setFlag(SpriteFlag.Invisible, true)
     npc_trigger.setPosition(npc.x, npc.y)
 }
-function procesar_opcio (opcio: number) {
+
+function procesar_opcio(opcio: number) {
+    
     if (opcio == 1) {
         current_product = "Gallina"
     } else if (opcio == 2) {
@@ -54,9 +62,12 @@ function procesar_opcio (opcio: number) {
         abrir_menu()
         return
     }
+    
     input_cantidad()
 }
-function calcular_conversion () {
+
+function calcular_conversion() {
+    
     if (current_product == "Gallina") {
         factor = 6
     } else if (current_product == "Patata") {
@@ -68,40 +79,31 @@ function calcular_conversion () {
     } else if (current_product == "Caballo") {
         factor = 12
     }
+    
     result = current_value * factor
-    game.showLongText("" + result + " kg de leña", DialogLayout.Top)
+    game.showLongText("" + ("" + result) + " kg de leña", DialogLayout.Top)
 }
-function input_cantidad () {
+
+function input_cantidad() {
+    
     current_value = game.askForNumber("Cantidad de " + current_product, 1)
     calcular_conversion()
 }
+
 let current_value = 0
 let result = 0
 let factor = 0
 let current_product = ""
-let npc_trigger: Sprite = null
-let npc: Sprite = null
-let player2: Sprite = null
+let npc_trigger : Sprite = null
+let npc : Sprite = null
+let player22 : Sprite = null
 let talking = true
-let productos = {
-    1 : "Gallina",
-    2 : "Patata",
-    3 : "Cabra",
-    4 : "Huevos",
-    5 : "Caballo",
-    6 : "Salir",
-}
-let factores = {
-    "Gallina" : 6,
-    "Patata" : 2 / 1.5,
-    "Cabra" : 5,
-    "Huevos" : 0.25,
-    "Caballo" : 12,
-}
-// --- INICIO ---
+//  --- INICIO ---
 create_npc()
-player2 = sprites.create(assets.image`myImage0`, SpriteKind.Player)
-controller.moveSprite(player2)
+player22 = sprites.create(assets.image`
+    myImage0
+    `, SpriteKind.Player)
+controller.moveSprite(player22)
 scene.setBackgroundImage(img`
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
     9999999999999999999999999999999999999999999999999999111111111119999999999999999999999999999999999999991111999999999999999999999999999999999999999999111111111111
