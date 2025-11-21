@@ -191,7 +191,7 @@ def game_loop():
 
 def menu_inicio():
     game.show_long_text("¡Bienvenido al juego de conversión de productos y troncos!", DialogLayout.CENTER)
-    scene.set_background_image(assets.image("""myImage"""))
+    scene.set_background_image(assets.image("""vill"""))
     while True:
         game.show_long_text("1-Jugar\n2-Instructions\n3-Salir", DialogLayout.CENTER)
         opcion = game.ask_for_number("Elige 1-3", 1)
@@ -226,15 +226,15 @@ jugador = sprites.create(img("""
 """), SpriteKind.player)
 jugador.set_stay_in_screen(True)
 
-npc = sprites.create(assets.image("""vill"""), SpriteKind.enemy)
+npc = sprites.create(assets.image("""myImage"""), SpriteKind.enemy)
 npc.set_position(44, 97)
 
-npc2 = sprites.create(assets.image("""vill0"""), SpriteKind.enemy)
+npc2 = sprites.create(assets.image("""myImage1"""), SpriteKind.enemy)
 npc2.set_position(120, 80)
 
 controller.move_sprite(jugador, MOVE_SPEED_X, MOVE_SPEED_Y)
 
-scene.set_background_image(assets.image("""myImage"""))
+scene.set_background_image(assets.image("""vill"""))
 
 def on_forever():
     game_loop()

@@ -229,7 +229,7 @@ function game_loop() {
 function menu_inicio() {
     let opcion: number;
     game.showLongText("¡Bienvenido al juego de conversión de productos y troncos!", DialogLayout.Center)
-    scene.setBackgroundImage(assets.image`myImage`)
+    scene.setBackgroundImage(assets.image`vill`)
     while (true) {
         game.showLongText(`1-Jugar
 2-Instructions
@@ -268,12 +268,12 @@ let jugador = sprites.create(img`
     . . . f f f f f f f f . . . . .
 `, SpriteKind.Player)
 jugador.setStayInScreen(true)
-let npc = sprites.create(assets.image`vill`, SpriteKind.Enemy)
+let npc = sprites.create(assets.image`myImage`, SpriteKind.Enemy)
 npc.setPosition(44, 97)
-let npc2 = sprites.create(assets.image`vill0`, SpriteKind.Enemy)
+let npc2 = sprites.create(assets.image`myImage1`, SpriteKind.Enemy)
 npc2.setPosition(120, 80)
 controller.moveSprite(jugador, MOVE_SPEED_X, MOVE_SPEED_Y)
-scene.setBackgroundImage(assets.image`myImage`)
+scene.setBackgroundImage(assets.image`vill`)
 forever(function on_forever() {
     game_loop()
 })
